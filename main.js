@@ -1,75 +1,60 @@
-x = 0;
-y = 0;
-screen_width = 0;
-screen_height = 0;
-apple = "";
-speak_data = "";
-to_number = "";
-draw_apple = "";
-
-var SpeechRecognition = window.webkitSpeechRecognition;
-  
-var recognition = new SpeechRecognition();
-
+song = "";
+scoreleftwrist = 0;
+scorerightwrist = 0;
+leftwristy = 0;
+lx = 0;
+rightwristy = 0;
+rx = 0;
 function preload()
 {
-  apple = loadImage("apple.png")
+    song = loadSound("music.mp3");
+}
+
+function setup(){
+    canvas = createCanvas(500, 500);
+    canvas.center();
+    video = createCapture(VIDEO);
+    video.hide();
+
+    posenet = ml5.posenet(video, modelLoaded);
+    posenet.on("Pose", gotPoses);
+}
+
+function modelLoaded()
+{
+    console.log("Posenet is initialized.");
+}
+
+function gotPoses(results)
+{
+    if(results.length>0)
+    {
+        console.log(results);
+        leftwristy = results[0].pose.leftWrist.y;
+        rightwristy = results[0].pose.leftWrist.y;
+    }
+}
+
+function draw()
+{
+    image(video, 0, 0, 500, 500);
+
+    fill("#00FFD9");
+    stroke("#FF0000");
+    if(scoreleftwrist < 0.2)
+    {
+        circle(leftWristx, leftwristy, 20);
+        InNumberleftWristY = Number(leftWristY);
+        decimal_perished_numbers = floor(InNumberleftWristY);
+        volume = 1 - decimal_perished_numbers/500;
+        document.getElementById("volumebutton").innerHTML = volume;
+        song.setvolume(volume); 
+    }
 }
 
 function start()
 {
-  document.getElementById("status").innerHTML = "System is listening please speak";  
-  recognition.start();
-} 
- 
-recognition.onresult = function(event) {
-
- console.log(event); 
-
- content = event.results[0][0].transcript;
-
- to_number = Number(content);
- if(Number.isInteger(to_number))
- {
-   draw_apple = "set";
- }
- else
- {
-   draw_apple = "No integer recognized";
- }
-
-
-    document.getElementById("status").innerHTML = "The speech has been recognized: " + content; 
-
-}
-
-function setup() {
- screen_width = window.innerWidth;
- screen_height = window.innerHeight;
- canvas = createCanvas(screen_width, screen_height - 200);
-}
-
-function draw() {
-  if(draw_apple == "set")
-  {
-    document.getElementById("status").innerHTML = to_number + " Apples drawn";
-    draw_apple = "set";
-    for(i=1;i<=to_number;i++)
-    {
-      x = Math.floor(Math.random()*700);
-      y = Math.floor(Math.random()*400);
-      image(apple, x, y, 50, 50);
-    }
-    speak();
-  }
-}
-
-function speak(){
-    var synth = window.speechSynthesis;
-
-    var utterThis = new SpeechSynthesisUtterance(speak_data);
-
-    synth.speak(utterThis);
-
-    speak_data = "";
+    song.play();
+    song.volume(1);
+    song.rate(1);
 }
