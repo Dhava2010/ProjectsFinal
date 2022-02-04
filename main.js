@@ -1,60 +1,27 @@
-song = "";
-scoreleftwrist = 0;
-scorerightwrist = 0;
-leftwristy = 0;
-lx = 0;
-rightwristy = 0;
-rx = 0;
-function preload()
+function setup()
 {
-    song = loadSound("music.mp3");
-}
-
-function setup(){
-    canvas = createCanvas(500, 500);
+    canvas = createCanvas(450, 400);
+    canvas.position(560, 250);
     canvas.center();
+
     video = createCapture(VIDEO);
-    video.hide();
+    video.size(550, 500);
 
-    posenet = ml5.posenet(video, modelLoaded);
-    posenet.on("Pose", gotPoses);
-}
-
-function modelLoaded()
-{
-    console.log("Posenet is initialized.");
+    poseNet = ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
 }
 
 function gotPoses(results)
 {
-    if(results.length>0)
+    if(results.length > 0)
     {
-        console.log(results);
-        leftwristy = results[0].pose.leftWrist.y;
-        rightwristy = results[0].pose.leftWrist.y;
+        console.log("Dr. Pineapple" + results);
+        x = results[0].pose.nose.x;
+        y = results[0].pose.nose.y;
+        lwx = results[0].pose.leftWrist.x;
+        rwx = results[0].pose.rightWrist.x;
+        difference = floor(lwx - rwx);
+        console.log(difference);
+        console.log(x, y);
     }
-}
-
-function draw()
-{
-    image(video, 0, 0, 500, 500);
-
-    fill("#00FFD9");
-    stroke("#FF0000");
-    if(scoreleftwrist < 0.2)
-    {
-        circle(leftWristx, leftwristy, 20);
-        InNumberleftWristY = Number(leftWristY);
-        decimal_perished_numbers = floor(InNumberleftWristY);
-        volume = 1 - decimal_perished_numbers/500;
-        document.getElementById("volumebutton").innerHTML = volume;
-        song.setvolume(volume); 
-    }
-}
-
-function start()
-{
-    song.play();
-    song.volume(1);
-    song.rate(1);
 }
