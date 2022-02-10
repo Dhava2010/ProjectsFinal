@@ -1,27 +1,31 @@
-function setup()
+var song = "";
+scoreleftwrist = 0;
+scorerightwrist = 0;
+leftwristy = 0;
+leftwristx = 0;
+rightwristy = 0;
+lx = 0;
+rightwristx = 0;
+rx = 0;
+function preload()
 {
-    canvas = createCanvas(450, 400);
-    canvas.position(560, 250);
-    canvas.center();
+    song = loadSound("ඞඞඞ.mp3");
+}
 
+function setup(){
+    canvas = createCanvas(500, 500);
+    canvas.center();
     video = createCapture(VIDEO);
-    video.size(550, 500);
+    video.hide();
 
     poseNet = ml5.poseNet(video, modelLoaded);
-    poseNet.on('pose', gotPoses);
+    poseNet.on('Pose', gotPoses);
 }
 
-function gotPoses(results)
+function draw()
 {
-    if(results.length > 0)
-    {
-        console.log("Dr. Pineapple" + results);
-        x = results[0].pose.nose.x;
-        y = results[0].pose.nose.y;
-        lwx = results[0].pose.leftWrist.x;
-        rwx = results[0].pose.rightWrist.x;
-        difference = floor(lwx - rwx);
-        console.log(difference);
-        console.log(x, y);
-    }
-}
+    image(video, 0, 0, 500, 500);
+
+    fill("#00FFD9");
+    stroke("#FF0000");
+    circle(rightwristx, rightwristy, 20);
