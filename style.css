@@ -10,43 +10,14 @@
     font-size: 15px;
 }
 
-
-.speed
-{
-    float: left;
-}
-
-#speedisk
-{
-    width: 200px;
-    border-radius: 100px;
-}
-
-.volume
-{
-    float: right;
-}
-
-#volumedisk
-{
-    width: 200px;
-    border-radius: 100px;
-}
-
-#volumebutton
-{
-    margin: 10px;
-}
-
-#speedbutton
-{
-    margin: 10px; 
-}
-
 .startbtn
 {
     margin: 30px;
     align-content: center;
     width: 75px;
     font-size: 20px;
+}
+
+body{
+    background-color: black;
 }
