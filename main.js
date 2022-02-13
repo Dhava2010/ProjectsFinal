@@ -29,3 +29,20 @@ function draw()
     fill("#00FFD9");
     stroke("#FF0000");
     circle(rightwristx, rightwristy, 20);
+}
+
+function modelLoaded()
+{
+    console.log("Model Loaded");
+}
+
+function gotPoses()
+{
+    if(results[0].length>0)
+    {
+        leftwristx = results[0].pose.leftWrist.x;
+        leftwristy = results[0].pose.leftWrist.y;
+        rightwristx = results[0].pose.leftWrist.x;
+        rightwristy = results[0].pose.leftWrist.y;
+    }
+}
