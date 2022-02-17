@@ -39,12 +39,12 @@ function draw()
     image(video, 0, 0, 700, 500);
     if(status!="")
     {
+        r = random(255);
+        g = random(255);
+        b = random(255);
+        objectDetector.detect(video, gotResult);
         for(i = 0; i < objects.length; i++)
         {
-            r = random(255);
-            g = random(255);
-            b = random(255);
-            objectDetector.detect(video, gotResult);
             document.getElementById("whatsappstatus").innerHTML = "Status: 🅳🅴🆃🅴🅲🆃🅴🅳";
             document.getElementById("noo").innerHTML = "Number of detected objects are" + objects.length; 
             fill(r, g, b);
