@@ -1,63 +1,57 @@
-var song = "";
-var song2 = "";
-scoreleftwrist = 0;
-scorerightwrist = 0;
-leftwristy = 0;
-leftwristx = 0;
-rightwristy = 0;
-lx = 0;
-rightwristx = 0;
-rx = 0;
-songstat1 = "";
-songstat2 = "";
+img = "";
+status = "";
+objects = [];
 function preload()
 {
-    song = loadSound("ඞඞඞ.mp3");
-    song2 = loadSound("music.mp3")
+    img = loadImage('dog_cat.jpg');
 }
 
-function setup(){
-    canvas = createCanvas(500, 500);
+function setup()
+{
+    canvas = createCanvas(700, 500);
     canvas.center();
     video = createCapture(VIDEO);
-    video.hide();
-
-    poseNet = ml5.poseNet(video, modelLoaded);
-    poseNet.on('Pose', gotPoses);
+    video.size(700, 500);
+    objectDetector = ml5.objectDetector('cocossd', modelLoaded);
+    document.getElementById("whatsappstatus").innerHTML = "Status: detecting objects";
 }
 
 function modelLoaded()
 {
     console.log("Model Loaded");
+    status = true;
 }
 
-function gotPoses()
+function gotResult(error, results)
 {
-    if(results[0].length>0)
+    if(error)
     {
-        leftwristx = results[0].pose.leftWrist.x;
-        leftwristy = results[0].pose.leftWrist.y;
-        rightwristx = results[0].pose.leftWrist.x;
-        rightwristy = results[0].pose.leftWrist.y;
-        scoreleftwrist = results[0].pose.keypoints[9].score;
+        console.error();
     }
-}
+    console.log(results);
 
+    objects = results;
+
+}
 function draw()
 {
-    image(video, 0, 0, 500, 500);
-
-    fill("#00FFD9");
-    stroke("#FF0000");
-    songstat1 = song.isPlaying();
-    songstat2 = song2.isPlaying();
-    if(scoreleftwrist>0.2)
+    image(video, 0, 0, 700, 500);
+    if(status!="")
     {
-        circle(rightwristx, rightwristy, 20);
-        song2.stop();
-    }
-    if(songstat1 = "false")
-    {
-        song1.play();
+        for(i = 0; i < objects.length; i++)
+        {
+            r = random(255);
+            g = random(255);
+            b = random(255);
+            objectDetector.detect(video, gotResult);
+            document.getElementById("whatsappstatus").innerHTML = "Status: 🅳🅴🆃🅴🅲🆃🅴🅳";
+            document.getElementById("noo").innerHTML = "Number of detected objects are" + objects.length; 
+            fill(r, g, b);
+            percent = floor(objects[i].confidence*100);
+            text(objects[i].label + " " + percent+"%", objects[i].x + 15, objects[i].y + 10);
+            noFill();
+            stroke(g, r, b);
+            rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+        }
     }
 }
