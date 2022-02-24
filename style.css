@@ -1,29 +1,26 @@
-
-.heading
+#footer
 {
-font-size: 23px;
-width: 100%;
-margin: 0px;
-}
-
-#whatsappstatus
-{
-font-size: 18px;
+    bottom: 0;
+    position: fixed;
+    color:crimson;
+    width: 100%;
+    background-color: aqua;
+    text-align: center;
 }
 
 body{
     background-size: cover;
-    background-position: center;
 }
 
-canvas
+.heading
 {
-    border-style: solid;
-    border-color: black;
+    font-size: 35px;
+    width: 100%;
+    margin: 0px;
 }
 
-#noo
-{
-    font-size: 18px;
+canvas{
+    border:5px solid black;
+    margin-top: 50px;
+    box-shadow:5px 5px 5px indigo;
 }
-
