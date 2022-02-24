@@ -1,26 +1,23 @@
-#footer
+#h3head
 {
-    bottom: 0;
-    position: fixed;
-    color:crimson;
-    width: 100%;
-    background-color: aqua;
-    text-align: center;
-}
-
-body{
-    background-size: cover;
-}
-
-.heading
-{
-    font-size: 35px;
+    font-size: 20px;
     width: 100%;
     margin: 0px;
 }
 
-canvas{
-    border:5px solid black;
-    margin-top: 50px;
-    box-shadow:5px 5px 5px indigo;
+#description
+{
+    font-size: 15px;
+}
+
+.startbtn
+{
+    margin: 30px;
+    align-content: center;
+    width: 75px;
+    font-size: 20px;
+}
+
+body{
+    background-color: black;
 }
