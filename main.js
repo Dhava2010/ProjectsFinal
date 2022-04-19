@@ -1,72 +1,56 @@
-var song = "";
-var song2 = "";
-scoreleftwrist = 0;
-scorerightwrist = 0;
-leftwristy = 0;
-leftwristx = 0;
-rightwristy = 0;
-lx = 0;
-rightwristx = 0;
-rx = 0;
-songstat1 = "";
-songstat2 = "";
-function preload()
-{
-    song = loadSound("ඞඞඞ.mp3");
-    song2 = loadSound("music.mp3")
+rightx = 0;
+righty = 0;
+scoreright = 0;
+paddle1 = 10;
+paddle2 = 10;
+paddle1x = 10
+paddle1y;
+paddle1Height = 110;
+paddle2Height = 70;
+paddle2y = 285;
+player_score = 0;
+compscore = 0;
+var ball = {
+    x:150/2,
+    y:180/2,
+    r:20,
+    dx:3,
+    dy:3
 }
 
-function setup(){
-    canvas = createCanvas(500, 500);
-    canvas.center();
+gamestatus = "";
+
+function preload()
+{
+    touch = loadSound("ball_touch_paddle.wav");
+    missed = loadSound("missed.wav");
+}
+
+function setup()
+{
+    canvas = createCanvas(300, 300);
+    canvas.parent("canvas");
     video = createCapture(VIDEO);
+    video.size(300, 300);
     video.hide();
 
+
     poseNet = ml5.poseNet(video, modelLoaded);
-    poseNet.on('Pose', gotPoses);
+    poseNet.on('pose', gotResults);
 }
 
 function modelLoaded()
 {
-    console.log("Model Loaded");
+    console.log("Loaded")
 }
 
-function gotPoses()
+function gotResults(results)
 {
-    if(results[0].length>0)
+    if(results.length>0)
     {
-        leftwristx = results[0].pose.leftWrist.x;
-        leftwristy = results[0].pose.leftWrist.y;
-        rightwristx = results[0].pose.leftWrist.x;
-        rightwristy = results[0].pose.leftWrist.y;
-        scoreleftwrist = results[0].pose.keypoints[9].score;
-    }
-}
-
-function draw()
-{
-    image(video, 0, 0, 500, 500);
-
-    fill("#00FFD9");
-    stroke("#FF0000");
-    songstat1 = song.isPlaying();
-    songstat2 = song2.isPlaying();
-    if(scoreleftwrist>0.2)
-    {
-        circle(rightwristx, rightwristy, 20);
-        song2.stop();
-    }
-    if(songstat1 = "false")
-    {
-        song.play();
-    }
-    if(scorerightwrist>0.2)
-    {
-        circle(rightwristx, rightwristy, 20);
-        song.stop();
-    }
-    if(songstat2 = "false")
-    {
-        song2.play();
+        rightx = results[0].pose.rightWrist.x;
+        righty = results[0].pose.rightWrist.y;
+        scoreright = results[0].pose.keypoints[10].score;
+        console.log(scoreright);
     }
 }
